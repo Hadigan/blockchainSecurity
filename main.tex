@@ -1,7 +1,9 @@
 \documentclass[a4paper, 11pt]{article}
     \usepackage{CJKutf8}
+    \usepackage{geometry}
     \usepackage[utf8]{inputenc}
     \usepackage[colorlinks, linkcolor=blue]{hyperref}
+    \usepackage[linesnumbered, boxed, ruled, commentsnumbered]{algorithm2e}
     \title{区块链安全综述}
     \author{林文海(11721018)}
     \date{2018年06月10日}
@@ -38,10 +40,8 @@
 
     \section{前言}
 
-    \subsection{比特币基础}
-
     \indent
-    
+
     比特币\cite{ref_article1}是第一个完全去中心化的电子货币系统。
     自从比特币在2009发行以来，
     它的价值已经获得巨大的提升，
@@ -49,6 +49,25 @@
     单个比特币的价值为
     7311.87美元，
     比特币总市值已经突破1249亿美元\cite{ref_web1}。
+
+
+    比特币以去中心化以及安全性著称，
+    但事实上依然存在着可以被人利用的漏洞，
+    本文对近几年来针对比特币挖矿攻击的研究进行了归纳概括，
+    其中主要介绍Selfish Mining攻击\cite{ref_selfish_mining1, ref_selfish_mining2, ref_selfish_mining3}、
+    BWH攻击\cite{ref_BWH1, ref_BWH2, ref_article3}以及FAW攻击\cite{ref_FAW}。本文的组织结构如下：
+    \begin{itemize}
+        \item 第一节前沿介绍背景以及本文的综述内容。
+        \item 第二节介绍本文需要的比特币基础知识，包括比特币基本原理、挖矿过程以及区块链分叉。
+        \item 第三、四、五分别介绍了Selfish Mining攻击、BWH攻击和FAW攻击，具体包括攻击的基本原理、攻击效果、攻击的改进版本、如何预防攻击等。
+        \item 第六节对全文进行总结。
+
+    \end{itemize}
+
+    \section{比特币基础}
+
+    \indent
+    
     比特币的核心是基于区块链技术，
     区块链本质上是一种分布式账本，
     它记录着比特币系统的所有历史交易信息。
@@ -147,15 +166,117 @@
     那么这个分叉就是有效的，
     而另一个分叉是无效的。
     除了这种偶然产生的分叉外，
-    分叉也可以认为地故意产生。
+    分叉也可以人为地故意产生。
     当一个矿工先挖出了一个新区块但是不立即将其广播到网络上，
     知道矿工检测到网络中其他的节点也挖出了一个新的区块后才将自己的挖到的新区块广播出去，
     以此来故意产生分叉。
     这种故意产生的分叉可以被用于“双重支付”攻击\cite{ref_double_spending}和“selfish mining”攻击
     \cite{ref_selfish_mining1, ref_selfish_mining2, ref_selfish_mining3}。
 
+    \section{Selfish Mining}
 
-    \newpage
+    \indent
+
+    正常情况下，一个诚实的矿工产生一个FPoW后会立即将新区块广播到比特币网络上，
+    但是在selfish mining攻击\cite{ref_selfish_mining1}中，
+    攻击者不会立即将新区块广播出去，
+    此时攻击者可以偷偷地开始挖新的区块，
+    而其他诚实的矿工还在原有的公链上挖矿。
+    如果攻击者发现了更多的新区块，
+    就继续偷偷地往后面挖新区块。
+    当公共分支的长度达到了私有分支的长度时，
+    攻击者就将自己发现的新区快全部广播出去。
+
+    \subsection{攻击原理}
+
+    \indent
+
+    Selfish mining攻击的核心思想就是使其他的诚实矿工在已经输掉的挖矿比赛中继续浪费算力。
+    具体来说就是攻击者使得诚实的矿工将部分算力花在挖掘不可能成为区块链一部分的区块上，
+    因为这一高度的区块早已经被攻击者挖到了。
+
+    Selfish mining攻击者通过选择合适的时机发布自己挖到的区块从而使其他诚实的矿工做了无用的工作。
+    通俗来讲，
+    攻击者偷偷保存自己挖到的区块，
+    然后人为地产生分叉，
+    并在自己的这条私有的分叉上继续挖矿，
+    然而诚实的矿工却还在较短原有的公共链上挖矿。
+    因为攻击者的算力只占全网算力的一小部分，
+    因此私有分叉的长度不会一直领先于公有链长度。
+    所以，攻击者必须选择合适的时机将新区块发布出去，
+    使得诚实的矿工放弃在原有的公链上挖矿而从新的区块开始挖，
+    从而达到攻击的目的。
+    这使得诚实矿工在公链上挖矿的工作都白费了，
+    反过来就增加了攻击者的收入。
+
+
+    \begin{algorithm}
+        \caption{Selfish-Mine}
+
+        \textbf{on} Init
+
+            $\ \ \ \ $ public chain  $\leftarrow$ publickly known blocks
+
+            $\ \ \ \ $ private chain $\leftarrow$ publickly known blocks
+
+            $\ \ \ \ $ \textit{privateBranchLen} $\leftarrow$ 0
+
+            $\ \ \ \ $ Mine at the head of the private chain.
+
+        $ $
+        
+        \textbf{on} My pool found a block
+
+            $\ \ \ \ $ $\Delta_{\textit{prev}}$ $\leftarrow$ length(private chain) - length(public chain)
+
+            $\ \ \ \ $ append new block to private chain
+
+            $\ \ \ \ $ \textit{privateBranchLen} $\leftarrow$ \textit{privateBranchLen} + 1
+
+            $\ \ \ \ $ \textbf{if} $\Delta_{\textit{prev}} = 0$ \textit{and privateBranchLen} = 2 \textbf{then} \hfill (Was tie with branch of 1)
+
+                $\ \ \ \ \ \ \ \ $ publish all of the private chain \hfill (Pool wins due to the lead of 1)
+
+                $\ \ \ \ \ \ \ \ $ \textit{privateBranchLen} $\leftarrow$ 0
+            
+            $\ \ \ \ $ Mine at the new head of the private chain.
+        
+        $ $
+
+        \textbf{on} Others found a block 
+
+            $\ \ \ \ $ $\Delta_{\textit{prev}}$ $\leftarrow$ length(private chain) - length(public chain)
+            
+            $\ \ \ \ $ append new block to public chain 
+
+            $\ \ \ \ $ \textbf{if} $\Delta_{\textit{prev}} = 0$ \textbf{then}
+
+                $\ \ \ \ \ \ \ \ $ private chain $\leftarrow$ public chain \hfill (they win)
+
+                $\ \ \ \ \ \ \ \ $ \textit{privateBranchLen} $\leftarrow$ 0
+            
+            $\ \ \ \ $ \textbf{else if} $\Delta_{\textit{prev}} = 1 $ \textbf{then}
+
+                $\ \ \ \ \ \ \ \ $ publish last block of the private chain \hfill (Now same length. Try our luck)
+
+            $\ \ \ \ $ \textbf{else if} $\Delta_{\textit{prev}} = 2 $ \textbf{then}
+
+                $\ \ \ \ \ \ \ \ $ publish all of the private chain \hfill (Pool wins due to the lead of 1)
+
+                $\ \ \ \ \ \ \ \ $ \textit{privateBranchLen} $\leftarrow$ 0
+            
+            $\ \ \ \ $ \textbf{else} \hfill ($\Delta_{\textit{prev}} > 2$)
+
+                $\ \ \ \ \ \ \ \ $ publish first unpublished block in private block.
+            
+            $\ \ \ \ $ Mine at the head of the private chain.
+
+    \end{algorithm}
+
+
+
+    \clearpage
+
     \begin{thebibliography}{8}
 
     \bibitem{ref_article1}
@@ -209,6 +330,26 @@
     Mining Strategies in Bitcoin.
     \textit{arXiv preprint arXiv:1507.06183} (2015).
 
+    \bibitem{ref_FAW}
+    Yujin Kwon, Dohyun Kim, Yunmok Son, Eugene Vasserman, and Yongdae Kim. 2017. 
+    Be Selfish and Avoid Dilemmas: Fork After Withholding (FAW) Attacks on Bitcoin. 
+    In Proceedings of the 2017 ACM SIGSAC Conference on Computer and Communications Security (CCS '17). 
+    ACM, New York, NY, USA, 195-209. DOI: https://doi.org/10.1145/3133956.3134019
+
+    \bibitem{ref_BWH1}
+    MeniRosenfeld.2011.AnalysisofBitcoinPooledMiningRewardSystems.arXiv
+    preprint arXiv:1112.4980 (2011).
+
+    \bibitem{ref_BWH2}
+    Nicolas T Courtois and Lear Bahack. 2014. 
+    On Subversive Miner Strategies and Block Withholding Attack in Bitcoin Digital Currency. 
+    arXiv preprint arXiv:1402.1718 (2014).
+
+    \bibitem{ref_article3}
+    LoiLuu,RatulSaha,InianParameshwaran,PrateekSaxena,andAquinasHobor. 2015. 
+    On Power Splitting Games in Distributed Computation: The Case of Bitcoin Pooled Mining. 
+    In \textit{Computer Security Foundations Symposium (CSF)}. IEEE.
+
     \bibitem{ref_book1}
     Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
     Location (1999)
@@ -216,12 +357,11 @@
     \bibitem{ref_proc1}
     Author, A.-B.: Contribution title. In: 9th International Proceedings
     on Proceedings, pp. 1--2. Publisher, Location (2010)
+
+    
     
     \end{thebibliography}
     
     \end{CJK*}
     
-
-    
-
     \end{document}

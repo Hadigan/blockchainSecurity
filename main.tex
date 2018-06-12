@@ -4,6 +4,8 @@
     \usepackage[utf8]{inputenc}
     \usepackage[colorlinks, linkcolor=blue]{hyperref}
     \usepackage[linesnumbered, boxed, ruled, commentsnumbered]{algorithm2e}
+    \usepackage{graphicx}
+    \graphicspath{ {figures/} }
     \title{区块链安全综述}
     \author{林文海(11721018)}
     \date{2018年06月10日}
@@ -318,9 +320,112 @@
 
     \subsection{仿真结果}
 
+    \indent
+
     假设selfish mining攻击者的算力为 $ \alpha$ ，
     那么其他诚实的矿工的算力和就是$1 - \alpha$。
+    用$\gamma$表示在出现分叉时诚实的矿工选择采纳攻击者的区块的概率，
+    反之$1 - \gamma$就表示诚实的矿工选择其他区块的概率。
+
+    Eyal等根据上一节的猜想进行了一系列的理论分析，具体见原文\cite{ref_selfish_mining1}。
+    为了验证理论分析的正确，
+    原文作者将理论分析的结果与比特币协议仿真器的结果做了对比。
+    实验使用了仿真器去模拟1000个矿工以相同的速率挖矿的过程，
+    其中$1000\alpha$的矿工构成一个矿池运行Selfish-Mine算法，
+    剩下的$1000(1-\alpha)$的矿工作为诚实的矿工运行正常的比特币协议。
+    实验假设区块的传播时间相比于挖矿时间可以忽略不计，
+    正如现实那样，新区块产生平均需要10分钟，
+    而区块的传播时间是百ms级别的。
+    当公有链和私有链的长度一样时，
+    作者人为地对诚实的矿工进行划分，
+    其中 $1000(1-\alpha)\gamma$ 的矿工采纳攻击者的区块，
+    剩下的 $1000(1-\alpha)(1-\gamma)$ 的矿工采纳其他区块。
+    图\ref{figure:figure1}是理论分析的结果和仿真结果的对比，
+    可以看出二者是吻合的。
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figure1}
+        \label{figure:figure1}
+        \caption{在不同的$\gamma$情况下，分别采用正常的挖矿协议和Selfish-Mine算法，攻击者的收益对比。
+        从仿真结果和理论分析都可以看出，
+        在$\alpha$超过某个阈值时，
+        采用Selfish-Mine算法比采用正常的挖矿协议收益要高，
+        这个阈值与$\gamma$有关。}
+    \end{figure}
+
+    作者根据理论分析发现了两个结论：\\
+
+    \textbf{结论1.} 对于一个确定的$\gamma$，
+    当$\alpha$在满足以下范围时采用Selfish-Mine的收益会高于采用正常的挖矿协议。
+
+    \begin{equation}
+        \frac{1-\gamma}{3-2\gamma} < \alpha < \frac{1}{2}
+    \end{equation}
+
+    可以利用图\ref{figure:figure1}来证明这个结论。
+    从图\ref{figure:figure1}可以看出在不同的$\alpha$和$\gamma$的情况下，
+    攻击者的收益变化。
+    回顾一下前面提到的，
+    根据Selfish-Mine算法，
+    只有在攻击者只领先公有链一个区块时才需要承担0收益的风险。
+    当$\gamma = 1$时，攻击者可以迅速地将自己的区块广播出去并被所有的诚实矿工所采纳，
+    那么攻击者便总是能够获得收益而不用承担风险。
+    此时只要$\alpha > 0$那么采用Selfish-Mine算法就是有益的。
+    当$\gamma = 0$时，诚实的矿工一定不会采纳攻击者的区块，此时必须满足$\alpha > 1/3$。
+    当$\gamma = 1/2$时，$\alpha$必须大于1/4。
+    图\ref{figure:figure2}表示阈值$\alpha$与$\gamma$的关系。\\
+
+    \textbf{结论2.} 对于一个运行Selfish-Mine算法的矿池来说，
+    当矿池的规模大于阈值时，
+    矿池中每个成员的收入会随着矿池规模的变大而变大。
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figure2}
+        \caption{对于给定的$\gamma$，$\alpha$是Selfish-Mine算法会胜过正常的挖矿协议的阈值。}
+        \label{figure:figure2}
+    \end{figure}
     
+    \subsection{使用Sybil攻击增强Selfish Mining}
+
+    根据\ref{figure:figure2}，
+    假设在一个一般的情况下$\gamma = 1/2$，
+    此时$\alpha$需要大于1/4才能保证Selfish-Miner获得额外的收益。
+    而想要掌握全网1/4算力从而发动攻击其实是一件比较不现实的事情，
+    因此降低$\gamma$从而减小$\alpha$成为改善selfish-mining攻击的一个方向。
+
+    Sybil攻击可以实现降低$\gamma$的目标。
+    攻击者往比特币网络中加入大量0算力的矿工，
+    这些矿工只负责转发区块，
+    而不会真正参与挖矿。
+    当攻击者的私有链的长度与公有链一样导致产生竞争时，
+    这些Sybil矿工只会采纳并转发攻击者产生的区块。
+    当Sybil节点数量足够多时，
+    $\gamma$会得到显著的下降，
+    使得Selfish-Miner只需要很低的算力便可以获得额外的收益。
+
+    \subsection{对抗Selfish Mining}
+
+    由理论分析和仿真结果可以看出，
+    阈值$\alpha$和$\gamma$是负相关的，
+    但是比特币协议没有任何改进的可能性能够保证一个较低的$\gamma$。
+    假设按照一般情况$\gamma = 1/2$，
+    那么Selfish-Miner需要掌握1/4的算力才可以获得额外的收入，
+    尽管这不太现实，
+    但是由于Sybil攻击的存在，
+    Selfish-Miner可以通过往比特币网络中加入大量Sybil节点来大大降低算力阈值，
+    使Selfish-Mining攻击变得可能。
+
+    Eyal等人针对比特币协议提出了一种改进方法。
+    在原有的比特币协议中，
+    节点总是先采纳并广播先接收到的区块，
+    而在改进方法中，
+    节点随机采纳接收到的区块，
+    并且都将他们广播出去。
+    这样子就可以使得$\gamma$接近于1/2。
+    这种改进方法是向后兼容的，
+    因此不会产生硬分叉。
 
     \clearpage
 

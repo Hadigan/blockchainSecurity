@@ -427,6 +427,35 @@
     这种改进方法是向后兼容的，
     因此不会产生硬分叉。
 
+    \section{BWH攻击}
+
+    \indent
+
+    BWH攻击最早是由Rosenfeld\cite{ref_BWH1}提出的。
+    BWH攻击者加入矿池进行挖矿，
+    但是它们只提交PPoW而不提交FPoW。
+    攻击者没有为矿池做任何FPoW贡献却共享了收益，
+    使得矿池蒙受了损失。
+    Courtois\cite{ref_BWH2}等提出了一种更广泛的BWH攻击：
+    攻击者同时做为独立矿工和加入矿池进行挖矿。
+    通过这样的攻击，
+    攻击者能够收获额外的收益。
+    “Eligius”矿池在2014年就遭受过这种攻击，
+    使得矿池损失了300个比特币\cite{ref_web5}。
+    在这次攻击中，
+    攻击者仅仅使用了两个比特币账号，
+    并且在很长的时间里都没有提交FPoW，
+    因此被矿池管理者发现。
+    但是如果攻击者使用更多的账号并且将算力分布在这些账号上去挖矿，
+    同时每隔一段时间就更换成新的账号进行挖矿，
+    那么矿池的管理员可能没那么容易发现攻击。
+    尽管矿池的管理员总是可以通过比较PPoW和FPoW的数量来判断是否受到了BWH攻击，
+    但是却没有办法避免这种攻击。
+    
+
+
+
+
     \clearpage
 
     \begin{thebibliography}{8}
@@ -489,7 +518,7 @@
     ACM, New York, NY, USA, 195-209. DOI: https://doi.org/10.1145/3133956.3134019
 
     \bibitem{ref_BWH1}
-    MeniRosenfeld.2011.AnalysisofBitcoinPooledMiningRewardSystems.arXiv
+    MeniRosenfeld.2011.Analysis of Bitcoin Pooled Mining Reward Systems.arXiv
     preprint arXiv:1112.4980 (2011).
 
     \bibitem{ref_BWH2}
@@ -497,10 +526,17 @@
     On Subversive Miner Strategies and Block Withholding Attack in Bitcoin Digital Currency. 
     arXiv preprint arXiv:1402.1718 (2014).
 
+    \bibitem{ref_web5}
+    Eligius: 0\% Fee BTC, 105\% PPS NMC, No registration, CPPSRB.
+    \url{https: //bitcointalk.org/?topic=441465.msg7282674}.
+    (2018).
+    [Online; accessed 12-Jun-2018].
+
     \bibitem{ref_article3}
     LoiLuu,RatulSaha,InianParameshwaran,PrateekSaxena,andAquinasHobor. 2015. 
     On Power Splitting Games in Distributed Computation: The Case of Bitcoin Pooled Mining. 
     In \textit{Computer Security Foundations Symposium (CSF)}. IEEE.
+
 
     \bibitem{ref_book1}
     Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,

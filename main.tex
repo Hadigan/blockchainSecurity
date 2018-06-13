@@ -346,7 +346,7 @@
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.6\textwidth]{figure1}
+        \includegraphics[width=0.5\textwidth]{figure1}
         \label{figure:figure1}
         \caption{在不同的$\gamma$情况下，分别采用正常的挖矿协议和Selfish-Mine算法，攻击者的收益对比。
         从仿真结果和理论分析都可以看出，
@@ -383,7 +383,7 @@
 
     \begin{figure}[h]
         \centering
-        \includegraphics[width=0.6\textwidth]{figure2}
+        \includegraphics[width=0.5\textwidth]{figure2}
         \caption{对于给定的$\gamma$，$\alpha$是Selfish-Mine算法会胜过正常的挖矿协议的阈值。}
         \label{figure:figure2}
     \end{figure}
@@ -687,11 +687,92 @@
         \end{tabular}
     \end{table}
 
-    
+    \subsubsection{攻击多个矿池结果}
+
+    \indent
+
+    \begin{table}[!htbp]
+        \centering
+        \caption{\textbf{比特币算力分布}}
+        \label{table:table2}
+        \begin{tabular}{|c|c||c|c|}
+            \hline
+            Owner & Computational Power & Owner & Computational Power \\
+            \hline
+            \hline
+            Unknown & 30\% & BTCC Poll & 10\% \\
+            \hline
+            F2Pool & 20\% & BW.com & 10\% \\
+            \hline
+            AntPool & 20\% & BitFury & 10\% \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    实验仿真了拥有20\%算力的攻击者同时对多个目标矿池发起FAW攻击，
+    其中主要是对两个目标矿池的攻击。
+    Case1,2,3分别表示两个目标矿池算力为(0.1,0.1),(0.2,0.1),(0.3,0.1)的情况，
+    case4表示F2Pool对表\ref{table:table2}中所有其他矿池发起攻击。
+    理论分析和仿真结果如图\ref{figure:figure4}所示。
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figure4}
+        \caption{\textbf{当FAW攻击者算力为20\%时同时对两个矿池发起攻击的收益。
+        Case1,2,3分别代表两个目标矿池的算力($\beta_1$,$\beta_2$)为(0.1,0.1),(0.2,0.1)和(0.3,0.1)的情况。
+        Case4表示F2Poll对表2中所有其他矿池发动FAW攻击的情况。
+        理论分析与仿真结果基本匹配。}}
+        \label{figure:figure4}
+    \end{figure}
 
 
 
+    \subsubsection{两个矿池互相攻击结果}
 
+    \indent
+
+    两个矿池之间互相发起FAW的结果如图\ref{figure:figure6}所示。
+    其中(a)和(b)分别表示$Pool_1$的无赖矿工的算力$f_1$和$Pool_2$的无赖矿工的算力$f_2$处于纳什均衡的情况。
+    (c)和(d)分别表示在纳什均衡的情况下，
+    $Poll_1$和$Pool_2$的RERs(\%) $R'_1$和$R'_2$，
+    横坐标是$Pool_2$的算力$\alpha_2$，
+    纵坐标是网络因素$c$。
+
+    \subsection{对抗FAW攻击}
+
+    \indent
+
+    实验表明FAW攻击比BWH攻击能够获得更多的额外收益。
+    从目标矿池的角度来看，
+    检测无赖矿工并识别出其身份是非常重要的。
+    由于FAW攻击经常产生分叉，
+    因此FAW攻击比BWH攻击更容易被检测出来。
+    另外，
+    矿池管理者应该怀疑并赶走任何不及时提交FPoW的矿工，
+    而不是简单地接受FPoW并获得奖励。
+    比特币协议规定上一轮的奖励不能被返还给矿池管理者，
+    因此攻击者可以很容易使用很多Sybil节点发起攻击，
+    当节点被矿池赶走时就更换矿工。
+    这个策略使得攻击者可以不受矿池管理员行为的影响而获得额外的收入，
+    即使管理员已经检测出攻击者的无赖节点并将其赶走。
+    无赖节点的数量越多，
+    矿池管理员检测出攻击者的影响就越小，
+    因为攻击者可以不停地替换无赖节点而持续进行FAW攻击。
+    再极端一点攻击者甚至可以使用一些服务例如Tor来隐藏IP地址而不被发现。
+    综上所述，想要禁止FAW攻击还需要其他的方法。
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figure6}
+        \caption{\textbf{当$Pool_1$的算力$\alpha_2=0.2$时，不同$Pool_2$算力$\alpha_2$和网络情况$c$发起FAW攻击的结果。}}
+        \label{figure:figure6}
+    \end{figure}
+
+    \section{总结}
+
+    \indent
+
+    本文基于
 
 
     \clearpage

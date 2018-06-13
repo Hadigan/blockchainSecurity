@@ -5,6 +5,7 @@
     \usepackage[colorlinks, linkcolor=blue]{hyperref}
     \usepackage[linesnumbered, boxed, ruled, commentsnumbered]{algorithm2e}
     \usepackage{graphicx}
+    \usepackage{diagbox}
     \graphicspath{ {figures/} }
     \title{区块链安全综述}
     \author{林文海(11721018)}
@@ -643,8 +644,51 @@
     其中可能用到的参数含义如下：
 
     \begin{itemize}
-        \item $\alpha：$ 攻击者的总的算力 
+        \item $\alpha$: 攻击者的总的算力 
+        \item $\beta$: 受害矿池的算力和
+        \item $\tau$: 攻击者的无赖矿工占$\alpha$的比例
+        \item $c$: 攻击者的无赖矿工发现的FPoW被选为主链的概率
+        \item $R$: 收益
+        \item $RER$: 额外收益占诚实矿工收益的比例
     \end{itemize}
+
+    \subsubsection{攻击单个矿池结果}
+
+    \indent
+
+    实验仿真了用FAW方法攻击具有20\%算力的单个矿池，
+    具体使用了蒙特卡罗方法超过$10^9$次，
+    误差上限为$10^{-4}$。
+    表\ref{table:table1}是当$\beta=0.2$时攻击者的$RER$在不同$\alpha$和$c$下的值。
+    由表\ref{table:table1}可以看出不管$\alpha$和$c$的值是多少，
+    攻击者总是可以利用FAW攻击获得额外的收益，
+    并且额外的收入总是大于等于采用BWH攻击时的额外收益。
+
+
+    \begin{table}[!htbp]
+        \centering
+        \caption{当目标矿池的算力$\beta=0.2$时攻击者的$RER$，$a(b)$分别代表理论分析的结果和仿真的结果。}
+        \label{table:table1}
+        \begin{tabular}{|c||c|c|c|c|}
+            \hline
+            \diagbox{\textbf{c}}{$\alpha$}&{\textbf{0.1}}&{\textbf{0.2}}&{\textbf{0.3}}&{\textbf{0.4}}\\
+            \hline
+            \hline
+            \textbf{0} & 0.53(0.53) & 1.14(1.14) & 1.85(1.85) & 2.70(2.70) \\
+            \hline
+            \textbf{0.25} & 0.65(0.67) & 1.38(1.38) & 2.20(2.20) & 3.1(3.13) \\
+            \hline
+            \textbf{0.5} & 0.85(0.85) & 1.74(1.74) & 2.70(2.70) & 3.75(3.75) \\
+            \hline
+            \textbf{0.75} & 1.21(1.22) & 2.37(2.37) & 3.52(3.52) & 4.69(4.70) \\
+            \hline
+            \textbf{1} & 2.12(2.12) & 3.75(3.75) & 5.13(5.13) & 6.37(6.36) \\
+            \hline
+        \end{tabular}
+    \end{table}
+
+    
+
 
 
 

@@ -257,6 +257,8 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu5b.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu62.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu65.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu51.tfm
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu6c.tfm
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu8e.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu53.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu80.tfm
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/tfm/arphic/gbsnu/gbsnu73.tfm
@@ -269,10 +271,12 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.p
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu30.pfb
@@ -335,6 +339,7 @@ INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8a.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8b.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8c.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8d.pfb
+INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8e.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8f.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu90.pfb
 INPUT /usr/local/texlive/2017/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu91.pfb

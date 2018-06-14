@@ -7,7 +7,7 @@
     \usepackage{graphicx}
     \usepackage{diagbox}
     \graphicspath{ {figures/} }
-    \title{区块链安全综述}
+    \title{区块链挖矿安全研究综述}
     \author{林文海(11721018)}
     \date{2018年06月10日}
     
@@ -17,7 +17,7 @@
         %%%% 重定义 %%%%
         \renewcommand{\contentsname}{目录}  % 将Contents改为目录
         \renewcommand{\abstractname}{摘要}  % 将Abstract改为摘要
-        \renewcommand{\refname}{参考文献}   % 将References改为参考文献
+        \renewcommand{\refname}{参考资料}   % 将References改为参考文献
         \renewcommand{\indexname}{索引}
         \renewcommand{\figurename}{图}
         \renewcommand{\tablename}{表}
@@ -28,17 +28,43 @@
     \maketitle
     
     \begin{abstract}
-        这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。
-        这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。
-        这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。这是中文摘要。
+        比特币系统利用区块链技术的去中心化的货币交易系统。
+        区块链本质上是一种分布式账本。
+        比特币网络中的矿工们利用工作量证明机制来保证账本的一致性。
+        工作量证明机制本质上就是解决一种难题最终获得系统的奖励，
+        解决难题的过程被称为挖矿。
+        一些矿工们为了收入能够更加稳定而组成矿池进行挖矿，
+        矿池根据矿工的贡献分配奖励。
+        本文介绍分析了三个与比特币挖矿相关的攻击。
+        Selfish mining攻击通过故意制造区块链分叉获得额外的收益。
+        BWH攻击只向矿池贡献问题的非正确解使得矿池利益受损。
+        FAW攻击结合了Selfish mining攻击和BWH攻击，
+        它的攻击模式更多样化并且收益也更高。
+
+
     \end{abstract}
 
     \renewcommand{\abstractname}{Abstract}
 
     \begin{abstract}
-        This is abstract in English.This is abstract in English.This is abstract in English.
-        This is abstract in English.This is abstract in English.This is abstract in English.
-        This is abstract in English.This is abstract in English.This is abstract in English.
+        Using blockchain tech,bitcoin is a fully decentralized cryptocurrency system.
+        Blockchain is essentially a distributed legder.
+        In the bitcoin system,participants use a mechanism called 'Proof of Work' to ensure the consistency of the distributed ledger.
+        Proof of Work means that some cryptographic puzzles should be done.
+        The process of solving cryptographic puzzles is called mining.
+        Miner are rewarded for solving cryptographic puzzles.
+        In order to receive more consistent rewards over time, 
+        some miners organize mining pools and split the rewards from the pool in proportion to each miner’s contribution.
+        In this paper,
+        we introduce and analyze three attacks related to bitcoin mining.
+        Selfish-mining attackers can get extra rewards by deliberately generating blockchain forks.
+        BWH attackers damage the benefits of pools by only submitting incorrect Proof of Work to managers of pools.
+        FAW attack combines selfish-mining with BWH.
+        The patterns of it are more varied and the benefits are higher.
+
+
+        
+
     \end{abstract}
 
     \section{前言}
@@ -390,7 +416,9 @@
     
     \subsection{使用Sybil攻击增强Selfish Mining}
 
-    根据\ref{figure:figure2}，
+    \indent
+
+    根据图\ref{figure:figure2}，
     假设在一个一般的情况下$\gamma = 1/2$，
     此时$\alpha$需要大于1/4才能保证Selfish-Miner获得额外的收益。
     而想要掌握全网1/4算力从而发动攻击其实是一件比较不现实的事情，
@@ -407,6 +435,8 @@
     使得Selfish-Miner只需要很低的算力便可以获得额外的收益。
 
     \subsection{对抗Selfish Mining}
+
+    \indent
 
     由理论分析和仿真结果可以看出，
     阈值$\alpha$和$\gamma$是负相关的，
@@ -639,15 +669,15 @@
     \indent
 
     Courtois在\cite{ref_FAW}中对FAW攻击的三种模式进行理论分析和仿真，
-    理论测试可以参考原文，
+    理论分析可以参考原文，
     本节展示一下理论分析和仿真的结果。
     其中可能用到的参数含义如下：
 
     \begin{itemize}
         \item $\alpha$: 攻击者的总的算力 
-        \item $\beta$: 受害矿池的算力和
+        \item $\beta$: 受攻击的目标矿池的算力和
         \item $\tau$: 攻击者的无赖矿工占$\alpha$的比例
-        \item $c$: 攻击者的无赖矿工发现的FPoW被选为主链的概率
+        \item $c$: 由攻击者的无赖矿工发现的FPoW最终被选为主链的概率
         \item $R$: 收益
         \item $RER$: 额外收益占诚实矿工收益的比例
     \end{itemize}
@@ -715,16 +745,6 @@
     case4表示F2Pool对表\ref{table:table2}中所有其他矿池发起攻击。
     理论分析和仿真结果如图\ref{figure:figure4}所示。
 
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=0.6\textwidth]{figure4}
-        \caption{\textbf{当FAW攻击者算力为20\%时同时对两个矿池发起攻击的收益。
-        Case1,2,3分别代表两个目标矿池的算力($\beta_1$,$\beta_2$)为(0.1,0.1),(0.2,0.1)和(0.3,0.1)的情况。
-        Case4表示F2Poll对表2中所有其他矿池发动FAW攻击的情况。
-        理论分析与仿真结果基本匹配。}}
-        \label{figure:figure4}
-    \end{figure}
-
 
 
     \subsubsection{两个矿池互相攻击结果}
@@ -737,6 +757,16 @@
     $Poll_1$和$Pool_2$的RERs(\%) $R'_1$和$R'_2$，
     横坐标是$Pool_2$的算力$\alpha_2$，
     纵坐标是网络因素$c$。
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{figure4}
+        \caption{\textbf{当FAW攻击者算力为20\%时同时对两个矿池发起攻击的收益。
+        Case1,2,3分别代表两个目标矿池的算力($\beta_1$,$\beta_2$)为(0.1,0.1),(0.2,0.1)和(0.3,0.1)的情况。
+        Case4表示F2Poll对表2中所有其他矿池发动FAW攻击的情况。
+        理论分析与仿真结果基本匹配。}}
+        \label{figure:figure4}
+    \end{figure}
 
     \subsection{对抗FAW攻击}
 
@@ -772,8 +802,68 @@
 
     \indent
 
-    本文基于
+    本文分析了三种比特币的攻击方式，
+    分别是selfish mining、BWH攻击以及FAW攻击。
+    
+    Selfish mining攻击使用单个矿工节点发起攻击，
+    当攻击者挖到一个新区块后不会立即广播出去而是根据算法\ref{algorithm:selfishMine}的策略选择合适的时机广播新区块。
+    Selfish mining攻击需要掌握较大规模的算力才能够获得额外的收益，
+    但是利用Sybil节点可以降低攻击成功的门槛。
+    Eyal等人提出了一种修改比特币协议的方案号称可以解决Sybil节点的影响。
+    方案中节点随机采纳接收到的所有区块中的任意一个，
+    并且将所有接收到的区块都进行转发。
+    Eyal等指出这个方案是向前兼容的，因此不会产生硬分叉。
+    但是，
+    我个人认为这个改进方案存在一个问题，
+    首先，方案是向前兼容的，
+    也就是说如果节点不更新比特币协议的版本的话也可以正常的工作。
+    在原有的协议中，
+    矿工节点为了使得自己利益最大化，
+    往往会选择采纳最先接收到区块，
+    因为这样子它们可以尽早地开始挖下一个区块。
+    而改进方案中要求矿工节点随机采纳一个区块，
+    如果矿工选择了一个后接收到的区块，
+    那么接收到第一个区块与接收到最终采纳区块之间的这段时间的算力就白费了，
+    因此，矿工为了自己的利益不受损，
+    势必不会使用新的比特币协议。
 
+    在BWH攻击早期的版本中，
+    攻击者只是简单地丢弃FPoW，
+    使得矿池利益受到损害，
+    但是攻击者自己的利益却没有增加。
+    在改进型的BWH攻击中，
+    攻击者将算法分成两部分，
+    一部分加入目标矿池，
+    一部分作为独立矿工。
+    目标矿池中的攻击者只提交PPoW，
+    而将FPoW发送给自己的独立矿工去广播。
+    使得目标矿池收益变小，
+    攻击者的收益变多。
+    我认为在不修改比特币协议的情况下，
+    唯一的能解决这个攻击的办法就是矿池管理者需要对加入矿池的成员进行一定的验证，
+    而不是随意让人加入。
+    如果可以修改比特币协议的话，
+    可以尝试将矿池管理员分配给矿工的任务分成两部分，
+    不让矿工直接知道提交的任务的结果究竟是PPoW还是FPoW，
+    这样可以从根本上解决这个BWH攻击。
+
+    FAW攻击的结合了Selfish Mining和早期版本的BWH攻击，
+    简单地说就是利用目标矿池的其他算力来发起Selfish mining攻击，
+    故意制造分叉。
+    第五节介绍了使用FAW攻击单个矿池、攻击多个矿池以及两个矿池之间互相攻击的请款，
+    并给出了理论分析和仿真的结果。
+    FAW攻击能够获得比BWH攻击更多的收益，
+    但是因为经常产生分叉，
+    因此FAW攻击更容易被识别出来。
+    矿池管理者可以将那些不及时提交FPoW的矿工直接赶出矿池，
+    但是攻击者可以不停地更换节点加入矿池。
+    我个人认为解决FAW的方法与解决BWH类似，
+    要么矿池管理员对加入矿池的矿工都进行认证，
+    要么修改比特币协议不让矿工直接知道任务的结果究竟是PPoW还是FPoW。
+
+    针对区块链的攻击还有许多许多，
+    由于篇幅限制，
+    就不在此一一介绍。
 
     \clearpage
 
@@ -860,17 +950,6 @@
     Ittay Eyal. 2015. The Miner’s Dilemma. In \textit{Symposium on Security and Privacy}.
 IEEE.
 
-
-    \bibitem{ref_book1}
-    Author, F., Author, S., Author, T.: Book title. 2nd edn. Publisher,
-    Location (1999)
-    
-    \bibitem{ref_proc1}
-    Author, A.-B.: Contribution title. In: 9th International Proceedings
-    on Proceedings, pp. 1--2. Publisher, Location (2010)
-
-    
-    
     \end{thebibliography}
     
     \end{CJK*}

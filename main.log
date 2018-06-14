@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.12.30)  14 JUN 2018 11:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.12.30)  14 JUN 2018 11:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1096,11 +1096,11 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 957.
 ### simple group (level 1) entered at line 1061 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 11085 strings out of 492995
- 155534 string characters out of 6132703
+ 11086 strings out of 492995
+ 155565 string characters out of 6132703
  286231 words of memory out of 5000000
  14052 multiletter control sequences out of 15000+600000
- 60774 words of font info for 217 fonts, out of 8000000 for 9000
+ 60948 words of font info for 218 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,16n,30p,529b,4713s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts
@@ -1185,7 +1185,7 @@ t/fonts/type1/arphic/gbsnu/gbsnu98.pfb></usr/local/texlive/2017/texmf-dist/font
 s/type1/arphic/gbsnu/gbsnu99.pfb></usr/local/texlive/2017/texmf-dist/fonts/type
 1/arphic/gbsnu/gbsnu9a.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/arph
 ic/gbsnu/gbsnuff.pfb>
-Output written on main.pdf (15 pages, 1520439 bytes).
+Output written on main.pdf (15 pages, 1519643 bytes).
 PDF statistics:
  744 PDF objects out of 1000 (max. 8388607)
  550 compressed objects within 6 object streams
